@@ -56,7 +56,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-To use the SF Symbols (icons) in Apple's design, you must also abide by the terms:
+To use the SF Symbols (icons) in Apple's design, you must also abide by
+the terms:
 
    All SF Symbols shall be considered to be system-provided images as 
    defined in the Xcode and Apple SDKs license agreements and are subject 
