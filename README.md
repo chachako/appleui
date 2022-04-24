@@ -4,6 +4,20 @@
 
 
 
+## Themes Support
+
+#### Planned:
+
+- [x] [**iOS-Style**](https://developer.apple.com/design/human-interface-guidelines/ios/overview/)
+- [ ] [**macOS-Style**](https://developer.apple.com/design/human-interface-guidelines/macos/overview/)
+
+#### No plan:
+
+- [ ] [**tvOS-Style**](https://developer.apple.com/design/human-interface-guidelines/tvos/overview/)
+- [ ] [**watchOS-Style**](https://developer.apple.com/design/human-interface-guidelines/watchos/overview/)
+
+
+
 ## Platform Support
 
 - [x] **Android**
