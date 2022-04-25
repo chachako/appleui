@@ -22,6 +22,7 @@
 @file:OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 
 import org.jetbrains.compose.compose
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMultiplatformPlugin
 
 plugins {
   id(Plugins.Jetbrains.Compose)
@@ -30,6 +31,7 @@ plugins {
 androidLib {
   namespace = publication.data.groupId
   enableCompose()
+  KotlinMultiplatformPlugin
 }
 
 jvmTarget()

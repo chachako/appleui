@@ -1,6 +1,6 @@
 # Apple UI
 
-***Work in progress!*** This project provides a series of beautiful and high-fidelity widgets to allow you to implement the application that follows [Apple's design](https://developer.apple.com/design/) using [Jetpack Compose](https://developer.android.com/jetpack/compose).
+***Work in progress!*** This project provides a series of beautiful and high-fidelity components to allow you to implement the application that follows [Apple's design](https://developer.apple.com/design/) using [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
 
 
