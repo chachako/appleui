@@ -28,7 +28,10 @@ import androidx.compose.runtime.remember
  * corresponding values of the current theme in the [content] block:
  *
  * ```
- * AppleUiTheme(colors = Colors(label = Color.Red.toDynamicColor(), background = Color.Green.toDynamicColor())) {
+ * AppleUiTheme(colors = Colors(
+ *   label = Color.Red.toDynamicColor(),
+ *   background = Color.Green.toDynamicColor())
+ * ) {
  *   // Retrieve label color in the current hierarchy
  *   assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
  *   assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
@@ -144,7 +147,7 @@ object AppleUiTheme {
    *   assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
    *
    *   // Provide the new appearance in the lower hierarchy
-   *   AppleUiTheme(appearance = Appearance.Dark.toDynamicColor()) {
+   *   AppleUiTheme(appearance = Appearance.Dark) {
    *     Column {
    *       // The default label color in the dark theme is now red.
    *       assert(AppleUiTheme.appearance == Appearance.Dark)
