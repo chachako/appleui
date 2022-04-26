@@ -1,32 +1,51 @@
+@file:Suppress("KDocUnresolvedReference", "NAME_SHADOWING")
+
 package com.rinorz.appleui
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.remember
 
 /**
- * Customizable theme for Apple's UI Design, which is usually the entry point for a standard
- * Apple's UI-Style application implemented on Jetpack Compose, and can also be nested and
- * mixed with other UI themes (e.g. [MaterialTheme](https://developer.android.com/reference/kotlin/androidx/compose/material/MaterialTheme)).
- *
- * This composable function provides a [content] block in which the default styles of all
- * appleui components will be affected by the attributes of this theme.
+ * A customizable theme for Apple-style user interface, which is usually the entry point for a
+ * standard Apple's UI style application implemented on Jetpack Compose, can be nested and even mixed
+ * with other UI themes (e.g. [MaterialTheme](https://developer.android.com/reference/kotlin/androidx/compose/material/MaterialTheme)).
  *
  * ## Disclaimer
  *
- * Although this theme allows you to modify the default style of the appleui components, this
- * does not mean that this is recommended, as there is no such concept as customization in the
- * Apple's UI design specification, so don't make very "exaggerated" changes to the theme style
- * unless specifically needed, as this may go against the design specification.
+ * This composable function provides a [content] block in which the default styles of all appleui
+ * components will be affected by the attributes of this theme.
+ *
+ * Although this composable function allows you to modify the default style of the components in the
+ * [content], this does not mean that this is recommended, as there is no such concept as customization
+ * in the Apple's UI design specification, so don't make very "exaggerated" changes to the style unless
+ * specifically needed, as this may go against the design specification.
  *
  * ## Retrieve
  *
- * You can use the properties provided in the [AppleUiTheme] class to retrieve the
- * corresponding attributes of the current theme in the [content] block:
+ * You can use the properties provided in the [AppleUiTheme] object to retrieve the
+ * corresponding values of the current theme in the [content] block:
  *
  * ```
+ * AppleUiTheme(colors = Colors(label = Color.Red, background = Color.Green)) {
+ *   // Retrieve label color in the current hierarchy
+ *   assert(AppleUiTheme.colors.label == Color.Red)
+ *   assert(AppleUiTheme.colors.label == Color.Red)
+ *
+ *   // Retrieve background color in the current hierarchy
+ *   assert(AppleUiTheme.colors.background == Color.Green)
+ *
+ *   // Set different colors of theme for the child components
+ *   AppleUiTheme(colors = AppleUiTheme.colors.copy(label = Color.Blue)) {
+ *     // Retrieve the modified label color in the current hierarchy
+ *     assert(AppleUiTheme.colors.label == Color.Blue)
+ *     assert(AppleUiTheme.colors.label != Color.Red)
+ *
+ *     // Retrieve the unmodified background color in the current hierarchy
+ *     assert(AppleUiTheme.colors.background == Color.Green)
+ *   }
+ * }
  * ```
  *
  * ## Reference
@@ -34,11 +53,110 @@ import androidx.compose.runtime.Composable
  * [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
  * [Flutter Cupertino Theme](https://api.flutter.dev/flutter/cupertino/CupertinoTheme-class.html)
  *
+ * @param appearance The appearance of the [content]. If this parameter is `null` then inherit the value
+ *   provided via [CompositionLocalProvider] in the upper structure, or use the [Appearance.systemDefault]
+ *   if the upper structure is not provided.
+ *
+ * @param colors The colors of the [content]. If this parameter is `null` then inherit the value provided
+ *   via [CompositionLocalProvider] in the upper structure, or create a new [Colors] object if the upper
+ *   structure is not provided.
+ *
  * @author RinOrz
  */
 @Composable
 fun AppleUiTheme(
-  colors: Colors
+  appearance: Appearance? = null,
+  colors: Colors? = null,
+  content: @Composable () -> Unit,
 ) {
-  BasicText()
+  val updatedAppearance = appearance.orDefault().let {
+    // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+    //   argument provided when updating.
+    remember { it.copy() }.updateFrom(it)
+  }
+
+  val updatedColors = colors.orDefault().let {
+    // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+    //   argument provided when updating.
+    remember { it.copy() }.updateFrom(it)
+  }
+
+  CompositionLocalProvider(
+    LocalAppearance provides updatedAppearance,
+    LocalColors provides updatedColors,
+    content = content,
+  )
 }
+
+
+object AppleUiTheme {
+
+  /**
+   * Retrieves the [Appearance] of the current theme at the call site's position in the hierarchy.
+   *
+   * ## Description
+   *
+   * The [colors] are all affected by this property, a process called adaptive, see [DynamicColor]
+   * for more details.
+   *
+   * ## Example
+   * ```
+   * AppleUiTheme(appearance = Appearance.Light) {
+   *   // The default color scheme of the theme is light
+   *   assert(AppleUiTheme.appearance == Appearance.Light)
+   *
+   *   // Provide the new appearance in the lower hierarchy
+   *   Column {
+   *     AppleUiTheme(appearance = Appearance.Dark) {
+   *       // The default color scheme of the theme is now dark
+   *       assert(AppleUiTheme.appearance == Appearance.Dark)
+   *     }
+   *   }
+   * }
+   * ```
+   */
+  val appearance: Appearance
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppearance.current.orDefault()
+
+  /**
+   * Retrieves the [Colors] of the current theme at the call site's position in the hierarchy.
+   *
+   * ## Description
+   *
+   * The color values of this property are affected by the [appearance] property, a process called
+   * adaptive, see [DynamicColor] for more details.
+   *
+   * ## Example
+   * ```
+   * AppleUiTheme(
+   *   appearance = Appearance.Light,
+   *   colors = Colors(
+   *     label = DynamicColor(
+   *       light = Color.Blue,
+   *       dark = Color.Red,
+   *     ),
+   *   )
+   * ) {
+   *   // The default label color in the light theme is blue.
+   *   assert(AppleUiTheme.appearance == Appearance.Light)
+   *   assert(AppleUiTheme.colors.label == Color.Blue)
+   *
+   *   // Provide the new appearance in the lower hierarchy
+   *   AppleUiTheme(appearance = Appearance.Dark) {
+   *     Column {
+   *       // The default label color in the dark theme is now red.
+   *       assert(AppleUiTheme.appearance == Appearance.Dark)
+   *       assert(AppleUiTheme.colors.label == Color.Red)
+   *     }
+   *   }
+   * }
+   * ```
+   */
+  val colors: Colors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalColors.current.orDefault()
+}
+

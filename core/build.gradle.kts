@@ -24,6 +24,8 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMultiplatformPlugin
 
+val mobileSrcDir = "src/mobileMain/kotlin"
+
 plugins {
   id(Plugins.Jetbrains.Compose)
 }
@@ -53,7 +55,10 @@ commonTarget {
 }
 
 androidTarget {
-  main.dependsOn(jvmMainSourceSet)
+  main {
+    dependsOn(jvmMainSourceSet)
+    kotlin.srcDirs(mobileSrcDir)
+  }
   test.dependencies {
     implementationOf(compose.uiTestJUnit4)
   }
