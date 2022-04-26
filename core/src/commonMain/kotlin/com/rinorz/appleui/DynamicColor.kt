@@ -59,3 +59,18 @@ val DynamicColor.current: Color
     if (highContrast) return if (isDark) highContrastDark else highContrastLight
     return if (isDark) dark else light
   }
+
+/**
+ * Converts a [Color] to a [DynamicColor] with given options. If the parameters are all defaults
+ * then this is a **static** ~~dynamic~~ value and its color value will always be fixed.
+ *
+ * @author RinOrz
+ */
+fun Color.toDynamicColor(
+  light: Color = this,
+  dark: Color = this,
+  elevated: Color = dark,
+  highContrastLight: Color = light,
+  highContrastDark: Color = dark,
+  highContrastElevated: Color = elevated,
+): DynamicColor = DynamicColor(light, dark, elevated, highContrastLight, highContrastDark, highContrastElevated)

@@ -28,22 +28,22 @@ import androidx.compose.runtime.remember
  * corresponding values of the current theme in the [content] block:
  *
  * ```
- * AppleUiTheme(colors = Colors(label = Color.Red, background = Color.Green)) {
+ * AppleUiTheme(colors = Colors(label = Color.Red.toDynamicColor(), background = Color.Green.toDynamicColor())) {
  *   // Retrieve label color in the current hierarchy
- *   assert(AppleUiTheme.colors.label == Color.Red)
- *   assert(AppleUiTheme.colors.label == Color.Red)
+ *   assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
+ *   assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
  *
  *   // Retrieve background color in the current hierarchy
- *   assert(AppleUiTheme.colors.background == Color.Green)
+ *   assert(AppleUiTheme.colors.background == Color.Green.toDynamicColor())
  *
  *   // Set different colors of theme for the child components
- *   AppleUiTheme(colors = AppleUiTheme.colors.copy(label = Color.Blue)) {
+ *   AppleUiTheme(colors = AppleUiTheme.colors.copy(label = Color.Blue.toDynamicColor())) {
  *     // Retrieve the modified label color in the current hierarchy
- *     assert(AppleUiTheme.colors.label == Color.Blue)
- *     assert(AppleUiTheme.colors.label != Color.Red)
+ *     assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
+ *     assert(AppleUiTheme.colors.label != Color.Red.toDynamicColor())
  *
  *     // Retrieve the unmodified background color in the current hierarchy
- *     assert(AppleUiTheme.colors.background == Color.Green)
+ *     assert(AppleUiTheme.colors.background == Color.Green.toDynamicColor())
  *   }
  * }
  * ```
@@ -141,14 +141,14 @@ object AppleUiTheme {
    * ) {
    *   // The default label color in the light theme is blue.
    *   assert(AppleUiTheme.appearance == Appearance.Light)
-   *   assert(AppleUiTheme.colors.label == Color.Blue)
+   *   assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
    *
    *   // Provide the new appearance in the lower hierarchy
-   *   AppleUiTheme(appearance = Appearance.Dark) {
+   *   AppleUiTheme(appearance = Appearance.Dark.toDynamicColor()) {
    *     Column {
    *       // The default label color in the dark theme is now red.
    *       assert(AppleUiTheme.appearance == Appearance.Dark)
-   *       assert(AppleUiTheme.colors.label == Color.Red)
+   *       assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
    *     }
    *   }
    * }
