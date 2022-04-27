@@ -39,14 +39,10 @@ androidApp {
   versionCode(1)
 }
 
-jvmTarget()
-
 commonTarget {
   main.dependencies {
     implementationProjects(Projects.Core)
   }
 }
 
-androidTarget {
-  main.dependsOn(jvmMainSourceSet)
-}
+androidTarget()

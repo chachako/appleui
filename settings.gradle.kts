@@ -72,4 +72,4 @@ importProjects(rootDir)
 
 // Only set in the CI environment, waiting the issue to be fixed:
 // https://youtrack.jetbrains.com/issue/KT-48291
-extra["kotlin.mpp.enableGranularSourceSetsMetadata"] = true
+if (isCiEnvironment) extra["kotlin.mpp.enableGranularSourceSetsMetadata"] = true

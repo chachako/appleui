@@ -16,16 +16,6 @@ import java.lang.reflect.Method
     .apply { isAccessible = true }
 }
 
-/**
- * Returns `true` if the Android system's high contrast mode is enabled.
- *
- * This function is the default for [Appearance.highContrast] property, and see that
- * property for more information.
- *
- * Inspired by [Stack Overflow answer](https://stackoverflow.com/a/34413208).
- *
- * @author RinOrz
- */
 @Composable
 @ReadOnlyComposable
 actual fun isSystemEnabledHighContrast(): Boolean = LocalContext.current.getSystemService(ACCESSIBILITY_SERVICE)?.let {

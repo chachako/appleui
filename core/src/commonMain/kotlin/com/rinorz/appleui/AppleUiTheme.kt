@@ -70,32 +70,43 @@ import androidx.compose.runtime.remember
 fun AppleUiTheme(
   appearance: Appearance? = null,
   colors: Colors? = null,
+  typography: Typography? = null,
   content: @Composable () -> Unit,
 ) {
-  val updatedAppearance = appearance.orDefault().let {
-    // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
-    //   argument provided when updating.
-    remember { it.copy() }.updateFrom(it)
-  }
-
-  val updatedColors = colors.orDefault().let {
-    // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
-    //   argument provided when updating.
-    remember { it.copy() }.updateFrom(it)
-  }
-
   CompositionLocalProvider(
-    LocalAppearance provides updatedAppearance,
-    LocalColors provides updatedColors,
+
+    LocalAppearance provides appearance.orDefault().let {
+      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+      //   argument provided when updating.
+      remember { it.copy() }.updateFrom(it)
+    },
+
+    LocalColors provides colors.orDefault().let {
+      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+      //   argument provided when updating.
+      remember { it.copy() }.updateFrom(it)
+    },
+
+    LocalTypography provides typography.orDefault().let {
+      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+      //   argument provided when updating.
+      remember { it.copy() }.updateFrom(it)
+    },
+
     content = content,
   )
 }
 
-
+/**
+ * The object class used to retrieve the state values of the current theme from any composable-hierarchy.
+ *
+ * @author RinOrz
+ */
 object AppleUiTheme {
 
   /**
    * Retrieves the [Appearance] of the current theme at the call site's position in the hierarchy.
+   * If the [Appearance] is not provided in the hierarchy, the [Appearance.systemDefault] will be created.
    *
    * ## Description
    *
@@ -125,6 +136,7 @@ object AppleUiTheme {
 
   /**
    * Retrieves the [Colors] of the current theme at the call site's position in the hierarchy.
+   * If the [Colors] is not provided in the hierarchy, the new [Colors] will be created.
    *
    * ## Description
    *
@@ -161,5 +173,14 @@ object AppleUiTheme {
     @Composable
     @ReadOnlyComposable
     get() = LocalColors.current.orDefault()
+
+  /**
+   * Retrieves the [Typography] of the current theme at the call site's position in the hierarchy.
+   * If the [Typography] is not provided in the hierarchy, the new [Typography] will be created.
+   */
+  val typography: Typography
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalTypography.current.orDefault()
 }
 

@@ -1,4 +1,4 @@
-@file:Suppress("KDocUnresolvedReference", "SpellCheckingInspection")
+@file:Suppress("NO_ACTUAL_FOR_EXPECT", "KDocUnresolvedReference", "SpellCheckingInspection")
 
 package com.rinorz.appleui
 
@@ -13,13 +13,13 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /**
- * Color system that conforms to Apple's UI Design specifications.
+ * Color system that conforms to Apple's user interface design specifications.
  *
- * ## Suggestion
+ * ## Suggestions
  *
- * Apple offers a range of standard colors for different platforms with dynamic adaptability, so
- * use these colors when choosing app tint colors that look great individually and in combination,
- * on both light and dark backgrounds.
+ * Apple offers a range of dynamically adaptable standard colors for different platforms, so use
+ * these colors when choosing app tint colors that look great individually and in combination, on
+ * both light and dark backgrounds.
  *
  * **Don’t hard-code system color values in your app.** In other UI design systems, you may be
  * used to using hard-coded color values, but in the Apple's UI design system, using the built-in
@@ -35,7 +35,9 @@ import androidx.compose.ui.graphics.Color
  *
  * ## References
  *
- * - [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)
+ * - [Human Interface Guidelines for iOS](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)
+ * - [Human Interface Guidelines for macOS](https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color/)
+ * - [SwiftUI Color](https://developer.apple.com/documentation/swiftui/color)
  * - [Flutter Cupertino Colors](https://api.flutter.dev/flutter/cupertino/CupertinoColors-class.html)
  *
  * @param accent Initial value of [Colors.accent]

@@ -171,13 +171,15 @@ actual object DefaultColors {
   @Stable val brown: DynamicColor = DynamicColor(
     light = Color(151, 122, 85),
     dark = Color(157, 129, 93),
-    // TODO high contrast
+    highContrastLight = Color(115, 91, 62),
+    highContrastDark = Color(171, 139, 96),
   )
 
   @Stable val cyan: DynamicColor = DynamicColor(
     light = Color(54, 160, 224),
     dark = Color(96, 202, 253),
-    // TODO high contrast
+    highContrastLight = Color(21, 99, 152),
+    highContrastDark = Color(106, 208, 253),
   )
 
   @Stable val green: DynamicColor = DynamicColor(
@@ -197,7 +199,8 @@ actual object DefaultColors {
   @Stable val mint: DynamicColor = DynamicColor(
     light = Color(26, 193, 182),
     dark = Color(93, 227, 222),
-    // TODO high contrast
+    highContrastLight = Color(22, 118, 112),
+    highContrastDark = Color(93, 227, 222),
   )
 
   @Stable val orange: DynamicColor = DynamicColor(
