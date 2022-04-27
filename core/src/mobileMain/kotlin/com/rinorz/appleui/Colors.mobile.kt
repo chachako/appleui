@@ -61,8 +61,8 @@ actual object DefaultColors {
     dark = Color(235, 235, 245, 153),
     highContrastLight = Color(60, 60, 67, 173),
     highContrastDark = Color(235, 235, 245, 173),
-    elevated = Color(235, 235, 245, 153),
-    highContrastElevated = Color(235, 235, 245, 173),
+    elevatedDark = Color(235, 235, 245, 153),
+    highContrastElevatedDark = Color(235, 235, 245, 173),
   )
 
   @Stable val label3: DynamicColor = DynamicColor(
@@ -70,8 +70,8 @@ actual object DefaultColors {
     dark = Color(235, 235, 245, 76),
     highContrastLight = Color(60, 60, 67, 96),
     highContrastDark = Color(235, 235, 245, 96),
-    elevated = Color(235, 235, 245, 76),
-    highContrastElevated = Color(235, 235, 245, 96),
+    elevatedDark = Color(235, 235, 245, 76),
+    highContrastElevatedDark = Color(235, 235, 245, 96),
   )
 
   @Stable val label4: DynamicColor = DynamicColor(
@@ -79,8 +79,8 @@ actual object DefaultColors {
     dark = Color(235, 235, 245, 40),
     highContrastLight = Color(60, 60, 67, 66),
     highContrastDark = Color(235, 235, 245, 61),
-    elevated = Color(235, 235, 245, 40),
-    highContrastElevated = Color(235, 235, 245, 61),
+    elevatedDark = Color(235, 235, 245, 40),
+    highContrastElevatedDark = Color(235, 235, 245, 61),
   )
 
   @Stable val placeholderText: DynamicColor = DynamicColor(
@@ -88,8 +88,8 @@ actual object DefaultColors {
     dark = Color(235, 235, 245, 76),
     highContrastLight = Color(60, 60, 67, 96),
     highContrastDark = Color(235, 235, 245, 96),
-    elevated = Color(235, 235, 245, 76),
-    highContrastElevated = Color(235, 235, 245, 96),
+    elevatedDark = Color(235, 235, 245, 76),
+    highContrastElevatedDark = Color(235, 235, 245, 96),
   )
 
   @Stable val link: DynamicColor = DynamicColor(
@@ -102,8 +102,8 @@ actual object DefaultColors {
     dark = Color(120, 120, 128, 91),
     highContrastLight = Color(120, 120, 128, 71),
     highContrastDark = Color(120, 120, 128, 112),
-    elevated = Color(120, 120, 128, 91),
-    highContrastElevated = Color(120, 120, 128, 112),
+    elevatedDark = Color(120, 120, 128, 91),
+    highContrastElevatedDark = Color(120, 120, 128, 112),
   )
 
   @Stable val fill2: DynamicColor = DynamicColor(
@@ -111,8 +111,8 @@ actual object DefaultColors {
     dark = Color(120, 120, 128, 81),
     highContrastLight = Color(120, 120, 128, 61),
     highContrastDark = Color(120, 120, 128, 102),
-    elevated = Color(120, 120, 128, 81),
-    highContrastElevated = Color(120, 120, 128, 102),
+    elevatedDark = Color(120, 120, 128, 81),
+    highContrastElevatedDark = Color(120, 120, 128, 102),
   )
 
   @Stable val fill3: DynamicColor = DynamicColor(
@@ -120,8 +120,8 @@ actual object DefaultColors {
     dark = Color(118, 118, 128, 61),
     highContrastLight = Color(118, 118, 128, 51),
     highContrastDark = Color(118, 118, 128, 81),
-    elevated = Color(118, 118, 128, 61),
-    highContrastElevated = Color(118, 118, 128, 81),
+    elevatedDark = Color(118, 118, 128, 61),
+    highContrastElevatedDark = Color(118, 118, 128, 81),
   )
 
   @Stable val fill4: DynamicColor = DynamicColor(
@@ -129,15 +129,15 @@ actual object DefaultColors {
     dark = Color(118, 118, 128, 45),
     highContrastLight = Color(116, 116, 128, 40),
     highContrastDark = Color(118, 118, 128, 66),
-    elevated = Color(118, 118, 128, 45),
-    highContrastElevated = Color(118, 118, 128, 66),
+    elevatedDark = Color(118, 118, 128, 45),
+    highContrastElevatedDark = Color(118, 118, 128, 66),
   )
 
   @Stable val background: DynamicColor = DynamicColor(
     light = Color(255, 255, 255),
     dark = Color(0, 0, 0),
-    elevated = Color(28, 28, 30),
-    highContrastElevated = Color(36, 36, 38),
+    elevatedDark = Color(28, 28, 30),
+    highContrastElevatedDark = Color(36, 36, 38),
   )
 
   @Stable val background2: DynamicColor = DynamicColor(
@@ -145,32 +145,32 @@ actual object DefaultColors {
     dark = Color(28, 28, 30),
     highContrastLight = Color(235, 235, 240),
     highContrastDark = Color(36, 36, 38),
-    elevated = Color(44, 44, 46),
-    highContrastElevated = Color(54, 54, 56),
+    elevatedDark = Color(44, 44, 46),
+    highContrastElevatedDark = Color(54, 54, 56),
   )
 
   @Stable val background3: DynamicColor = DynamicColor(
     light = Color(255, 255, 255),
     dark = Color(44, 44, 46),
     highContrastDark = Color(54, 54, 56),
-    elevated = Color(58, 58, 60),
-    highContrastElevated = Color(68, 68, 70),
+    elevatedDark = Color(58, 58, 60),
+    highContrastElevatedDark = Color(68, 68, 70),
   )
 
   @Stable val groupedBackground: DynamicColor = DynamicColor(
     light = Color(242, 242, 247),
     dark = Color(0, 0, 0),
     highContrastLight = Color(235, 235, 240),
-    elevated = Color(28, 28, 30),
-    highContrastElevated = Color(36, 36, 38),
+    elevatedDark = Color(28, 28, 30),
+    highContrastElevatedDark = Color(36, 36, 38),
   )
 
   @Stable val groupedBackground2: DynamicColor = DynamicColor(
     light = Color(255, 255, 255),
     dark = Color(28, 28, 30),
     highContrastLight = Color(255, 255, 255),
-    elevated = Color(44, 44, 46),
-    highContrastElevated = Color(54, 54, 56),
+    elevatedDark = Color(44, 44, 46),
+    highContrastElevatedDark = Color(54, 54, 56),
   )
 
   @Stable val groupedBackground3: DynamicColor = DynamicColor(
@@ -178,8 +178,8 @@ actual object DefaultColors {
     dark = Color(44, 44, 46),
     highContrastLight = Color(235, 235, 240),
     highContrastDark = Color(54, 54, 56),
-    elevated = Color(58, 58, 60),
-    highContrastElevated = Color(68, 68, 70),
+    elevatedDark = Color(58, 58, 60),
+    highContrastElevatedDark = Color(68, 68, 70),
   )
 
   @Stable val separator: DynamicColor = DynamicColor(
@@ -187,7 +187,7 @@ actual object DefaultColors {
     dark = Color(84, 84, 88, 153),
     highContrastLight = Color(60, 60, 67, 94),
     highContrastDark = Color(84, 84, 88, 173),
-    elevated = Color(84, 84, 88, 153),
+    elevatedDark = Color(84, 84, 88, 153),
   )
 
   @Stable val separatorOpaque: DynamicColor = DynamicColor(

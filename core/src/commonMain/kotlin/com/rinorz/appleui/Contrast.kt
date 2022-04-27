@@ -32,69 +32,27 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/RinOrz/appleui
  */
-@file:Suppress("KDocUnresolvedReference", "SpellCheckingInspection", "NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE")
 
 package com.rinorz.appleui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
- * The possible appearance in different theme environments.
+ * A [CompositionLocal] instance containing a boolean value that can detect whether the
+ * contrast is currently increased in the hierarchy.
  *
- * Equivalent to [SwiftUI](https://developer.apple.com/documentation/swiftui/colorscheme).
- *
- * @see AppleUiTheme
+ * @see AppleUiTheme.highContrast
  * @author RinOrz
  */
-enum class Appearance {
-
-  /**
-   * The color scheme that corresponds to a light appearance.
-   *
-   * Equivalent to [ColorScheme.light](https://developer.apple.com/documentation/swiftui/colorscheme/light).
-   */
-  Light,
-
-  /**
-   * The color scheme that corresponds to a dark appearance, aka. dark mode.
-   *
-   * Equivalent to [ColorScheme.dark](https://developer.apple.com/documentation/swiftui/colorscheme/dark).
-   */
-  Dark;
-
-  companion object {
-
-    /**
-     * Returns the system's default appearance.
-     *
-     * ## Disclaimer
-     *
-     * This function depends on the system, and if the system does not provide a boolean value for
-     * light or dark mode, the result of this function is undefined.
-     *
-     * @see isSystemInDarkTheme
-     */
-    @Composable
-    @ReadOnlyComposable
-    fun systemDefault(): Appearance = if (isSystemInDarkTheme()) Appearance.Dark else Appearance.Light
-  }
-}
+internal val LocalHighContrast = staticCompositionLocalOf { false }
 
 /**
- * A [CompositionLocal] instance containing the current [Appearance] in the hierarchy.
- *
- * @author RinOrz
- */
-internal val LocalAppearance: ProvidableCompositionLocal<Appearance?> = staticCompositionLocalOf { null }
-
-/**
- * Returns the [systemDefault] if this appearance is `null`, otherwise it returns itself.
+ * Returns the [isSystemEnabledHighContrast] if this boolean is `null`, otherwise it returns itself.
  */
 @Composable
 @ReadOnlyComposable
-internal inline fun Appearance?.orDefault(): Appearance = this ?: Appearance.systemDefault()
+internal inline fun Boolean?.orSystemHighContrast() = this ?: isSystemEnabledHighContrast()

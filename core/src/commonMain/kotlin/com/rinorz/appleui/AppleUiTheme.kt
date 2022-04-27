@@ -39,7 +39,9 @@ package com.rinorz.appleui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 /**
  * A customizable theme for Apple-style user interface, which is usually the entry point for a
@@ -90,42 +92,47 @@ import androidx.compose.runtime.remember
  * [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
  * [Flutter Cupertino Theme](https://api.flutter.dev/flutter/cupertino/CupertinoTheme-class.html)
  *
- * @param appearance The appearance of the [content]. If this parameter is `null` then inherit the value
- *   provided via [CompositionLocalProvider] in the upper structure, or use the [Appearance.systemDefault]
- *   if the upper structure is not provided.
+ * @param typography The [AppleUiTheme.typography] of the [content]. If this parameter is `null` then
+ *   inherit the value provided via [CompositionLocalProvider] in the superstructure, or create a new
+ *   [Typography] object if the superstructure is also not provided.
  *
- * @param colors The colors of the [content]. If this parameter is `null` then inherit the value provided
- *   via [CompositionLocalProvider] in the upper structure, or create a new [Colors] object if the upper
- *   structure is not provided.
+ * @param colors The [AppleUiTheme.colors] of the [content]. If this parameter is `null` then inherit
+ *   the value provided via [CompositionLocalProvider] in the superstructure, or create a new [Colors]
+ *   object if the superstructure is also not provided.
+ *
+ * @param appearance The [AppleUiTheme.appearance] of the [content]. If this parameter is `null` then
+ *   inherit the value provided via [CompositionLocalProvider] in the superstructure, or use the
+ *   [Appearance.systemDefault] if the superstructure is also not provided.
+ *
+ * @param highContrast The [AppleUiTheme.highContrast] of the [content]. If this parameter is `null`
+ *   then inherit the value provided via [CompositionLocalProvider] in the superstructure, or use the
+ *   system setting if the superstructure is also not provided.
+ *
+ * @param content The block containing the components of this theme.
  *
  * @author RinOrz
  */
 @Composable
 fun AppleUiTheme(
-  appearance: Appearance? = null,
-  colors: Colors? = null,
   typography: Typography? = null,
+  colors: Colors? = null,
+  appearance: Appearance? = null,
+  highContrast: Boolean? = null,
   content: @Composable () -> Unit,
 ) {
   CompositionLocalProvider(
-
-    LocalAppearance provides appearance.orDefault().let {
-      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
-      //   argument provided when updating.
-      remember { it.copy() }.updateFrom(it)
-    },
-
-    LocalColors provides colors.orDefault().let {
-      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
-      //   argument provided when updating.
-      remember { it.copy() }.updateFrom(it)
-    },
-
     LocalTypography provides typography.orDefault().let {
       // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
       //   argument provided when updating.
       remember { it.copy() }.updateFrom(it)
     },
+    LocalColors provides colors.orDefault().let {
+      // Explicitly remembering a new copy here so that we don't overwrite the values in the initial
+      //   argument provided when updating.
+      remember { it.copy() }.updateFrom(it)
+    },
+    LocalAppearance provides appearance.orDefault(),
+    LocalHighContrast provides highContrast.orSystemHighContrast(),
 
     content = content,
   )
@@ -139,43 +146,22 @@ fun AppleUiTheme(
 object AppleUiTheme {
 
   /**
-   * Retrieves the [Appearance] of the current theme at the call site's position in the hierarchy.
-   * If the [Appearance] is not provided in the hierarchy, the [Appearance.systemDefault] will be created.
-   *
-   * ## Description
-   *
-   * The [colors] are all affected by this property, a process called adaptive, see [DynamicColor]
-   * for more details.
-   *
-   * ## Example
-   * ```
-   * AppleUiTheme(appearance = Appearance.Light) {
-   *   // The default color scheme of the theme is light
-   *   assert(AppleUiTheme.appearance == Appearance.Light)
-   *
-   *   // Provide the new appearance in the lower hierarchy
-   *   Column {
-   *     AppleUiTheme(appearance = Appearance.Dark) {
-   *       // The default color scheme of the theme is now dark
-   *       assert(AppleUiTheme.appearance == Appearance.Dark)
-   *     }
-   *   }
-   * }
-   * ```
+   * Retrieves the [Typography] of the current theme at the call site's position in the hierarchy.
+   * If the [Typography] is not provided in the superstructure, the new [Typography] will be created.
    */
-  val appearance: Appearance
+  val typography: Typography
     @Composable
     @ReadOnlyComposable
-    get() = LocalAppearance.current.orDefault()
+    get() = LocalTypography.current.orDefault()
 
   /**
    * Retrieves the [Colors] of the current theme at the call site's position in the hierarchy.
-   * If the [Colors] is not provided in the hierarchy, the new [Colors] will be created.
+   * If the [Colors] is not provided in the superstructure, the new [Colors] will be created.
    *
    * ## Description
    *
-   * The color values of this property are affected by the [appearance] property, a process called
-   * adaptive, see [DynamicColor] for more details.
+   * The color values of this property are affected by [appearance], [highContrast] and [LocalVisualLevel]
+   * properties, a process called adaptive, see [DynamicColor.current] for more details.
    *
    * ## Example
    * ```
@@ -185,19 +171,30 @@ object AppleUiTheme {
    *     label = DynamicColor(
    *       light = Color.Blue,
    *       dark = Color.Red,
+   *       elevatedDark = Color.Green,
    *     ),
    *   )
    * ) {
-   *   // The default label color in the light theme is blue.
+   *   // The default label color in light themes at normal visual level is blue
    *   assert(AppleUiTheme.appearance == Appearance.Light)
+   *   assert(AppleUiTheme.visualLevel == VisualLevel.Base)
    *   assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
    *
-   *   // Provide the new appearance in the lower hierarchy
+   *   // Provide a theme with dark appearance in the lower hierarchy
    *   AppleUiTheme(appearance = Appearance.Dark) {
    *     Column {
-   *       // The default label color in the dark theme is now red.
+   *       // The label color in dark themes at normal visual level is now red
    *       assert(AppleUiTheme.appearance == Appearance.Dark)
+   *       assert(AppleUiTheme.visualLevel == VisualLevel.Base)
    *       assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
+   *
+   *       // Provide the elevated visual level in the lower hierarchy
+   *       CompositionLocalProvider(LocalVisualLevel provides VisualLevel.Elevated) {
+   *         // The label color in dark themes at elevated visual level is now green
+   *         assert(AppleUiTheme.appearance == Appearance.Dark)
+   *         assert(AppleUiTheme.visualLevel == VisualLevel.Elevated)
+   *         assert(AppleUiTheme.colors.label == Color.Green.toDynamicColor())
+   *       }
    *     }
    *   }
    * }
@@ -209,11 +206,127 @@ object AppleUiTheme {
     get() = LocalColors.current.orDefault()
 
   /**
-   * Retrieves the [Typography] of the current theme at the call site's position in the hierarchy.
-   * If the [Typography] is not provided in the hierarchy, the new [Typography] will be created.
+   * Retrieves the [Appearance] of the current theme at the call site's position in the hierarchy.
+   * If the [Appearance] is not provided in the superstructure, the [Appearance.systemDefault] will
+   * be returned.
+   *
+   * ## Description
+   *
+   * The [colors] are all affected by this property, a process called adaptive, see [DynamicColor.current]
+   * for more details.
+   *
+   * ## Example
+   * ```
+   * AppleUiTheme(
+   *   appearance = Appearance.Light,
+   *   colors = Colors(label = DynamicColor(
+   *     light = Color.Blue,
+   *     dark = Color.Red,
+   *   )),
+   * ) {
+   *   // The current theme's default color scheme is light
+   *   assert(AppleUiTheme.appearance == Appearance.Light)
+   *   assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
+   *
+   *   // Provide a theme with new appearance in the lower hierarchy
+   *   AppleUiTheme(appearance = Appearance.Dark) {
+   *     Column {
+   *       // The current theme's default color scheme is now dark
+   *       assert(AppleUiTheme.appearance == Appearance.Dark)
+   *       assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
+   *     }
+   *   }
+   * }
+   * ```
    */
-  val typography: Typography
+  val appearance: Appearance
     @Composable
     @ReadOnlyComposable
-    get() = LocalTypography.current.orDefault()
+    get() = LocalAppearance.current.orDefault()
+
+  /**
+   * Retrieves whether the current theme has taken high contrast at the call site's position
+   * in the hierarchy. If high contrast is not explicitly set in the superstructure, this value
+   * will always be the default.
+   *
+   * ## Important
+   *
+   * The default value of this property depends on the platform, for example, the user sets the
+   * contrast by selecting the "Increase Contrast" option in `Accessibility > Display` in the
+   * "System Preferences" on **macOS**, or in `Accessibility > Display & Text Size` in the
+   * "Settings" app on **iOS**.
+   *
+   * For information about using color and contrast in your application's theme, see
+   * [Color and Contrast](https://developer.apple.com/design/human-interface-guidelines/accessibility/overview/color-and-contrast).
+   *
+   * ## Description
+   *
+   * The [colors] are all affected by this property, a process called adaptive, see [DynamicColor.current]
+   * for more details.
+   *
+   * ## Example
+   * ```
+   * AppleUiTheme(
+   *   highContrast = true,
+   *   colors = Colors(
+   *     label = DynamicColor(
+   *       light = Color.Blue,
+   *       highContrastLight = Color.Red,
+   *     )
+   *   ),
+   *   appearance = Appearance.Light,
+   * ) {
+   *   // The current theme's default color scheme is now high contrast
+   *   assert(AppleUiTheme.highContrast == true)
+   *   assert(AppleUiTheme.colors.label == Color.Red.toDynamicColor())
+   *
+   *   // Provide a theme with default contrast in the lower hierarchy
+   *   AppleUiTheme(highContrast = false) {
+   *     // The current theme's default color scheme is now default contrast
+   *     assert(AppleUiTheme.highContrast == false)
+   *     assert(AppleUiTheme.colors.label == Color.Blue.toDynamicColor())
+   *   }
+   * }
+   * ```
+   */
+  val highContrast: Boolean
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalHighContrast.current.orSystemHighContrast()
 }
+
+/**
+ * Returns a boolean value indicating whether this theme's [appearance] is light.
+ *
+ * ## Example
+ *
+ * ```
+ * AppleUiTheme(appearance = Appearance.Light) {
+ *   assert(AppleUiTheme.appearance.isLight == true)
+ * }
+ * ```
+ *
+ * @see ColorScheme.Light
+ */
+val AppleUiTheme.isLight: Boolean
+  @Composable
+  @ReadOnlyComposable
+  inline get() = appearance == Appearance.Light
+
+/**
+ * Returns a boolean value indicating whether this theme's [appearance] is dark.
+ *
+ * ## Example
+ *
+ * ```
+ * AppleUiTheme(appearance = Appearance.Dark) {
+ *   assert(AppleUiTheme.appearance.isDark == true)
+ * }
+ * ```
+ *
+ * @see ColorScheme.Dark
+ */
+val AppleUiTheme.isDark: Boolean
+  @Composable
+  @ReadOnlyComposable
+  inline get() = appearance == Appearance.Dark
