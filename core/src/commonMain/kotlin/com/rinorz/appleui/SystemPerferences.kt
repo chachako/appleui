@@ -1,3 +1,5 @@
+@file:Suppress("NO_ACTUAL_FOR_EXPECT", "FunctionName")
+
 package com.rinorz.appleui
 
 import androidx.compose.runtime.Composable
