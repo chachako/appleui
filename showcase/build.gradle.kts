@@ -32,8 +32,10 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/RinOrz/appleui
  */
+plugins { id(Plugins.Jetbrains.Compose) }
+
 androidApp {
-  namespace = publication.data.groupId + ".catalog"
+  namespace = publication.data.groupId + ".showcase"
   applicationId(namespace!!)
   versionName("1.0")
   versionCode(1)
@@ -45,4 +47,11 @@ commonTarget {
   }
 }
 
-androidTarget()
+androidTarget {
+  main.dependencies {
+    implementationOf(
+      Libs.AndroidX.Activity.Ktx,
+      Libs.AndroidX.Activity.Compose,
+    )
+  }
+}

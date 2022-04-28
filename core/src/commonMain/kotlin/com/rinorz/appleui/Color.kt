@@ -41,15 +41,16 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * A color data that can automatically adapt to the current UI theme appearance.
+ * To retrieve the corresponding color adapted to the current appearance, call [DynamicColor.current].
  *
- * @see DynamicColor.current
- * @see Colors
+ * For an introduction to a dynamic color, see [Colors] for more information.
+ *
  * @author RinOrz
  */
 @Immutable
 data class DynamicColor(
   val light: Color,
-  val dark: Color,
+  val dark: Color = light,
   val elevatedLight: Color = light,
   val elevatedDark: Color = dark,
   val highContrastLight: Color = light,

@@ -133,10 +133,16 @@ fun AppleUiTheme(
     },
     LocalAppearance provides appearance.orDefault(),
     LocalHighContrast provides highContrast.orSystemHighContrast(),
-
-    content = content,
-  )
+  ) { PlatformThemeContent(content) }
 }
+
+/**
+ * Platform-specific content logic for [AppleUiTheme].
+ *
+ * @author RinOrz
+ */
+@Composable
+internal expect fun PlatformThemeContent(content: @Composable () -> Unit)
 
 /**
  * The object class used to retrieve the state values of the current theme from any composable-hierarchy.

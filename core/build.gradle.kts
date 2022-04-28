@@ -32,21 +32,15 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/RinOrz/appleui
  */
-@file:Suppress("UnstableApiUsage")
 @file:OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 
 import org.jetbrains.compose.compose
 
 val mobileSrcDir = "src/mobileMain/kotlin"
 
-plugins {
-  id(Plugins.Jetbrains.Compose)
-}
+plugins { id(Plugins.Jetbrains.Compose) }
 
-androidLib {
-  namespace = publication.data.groupId
-  enableCompose()
-}
+androidLib { namespace = publication.data.groupId }
 
 commonTarget {
   main.dependencies {
@@ -65,7 +59,15 @@ commonTarget {
 }
 
 androidTarget {
-  main.kotlin.srcDirs(mobileSrcDir)
+  main {
+    dependencies {
+      apiOf(
+        Libs.AndroidX.Core.Ktx,
+        Libs.Google.Accompanist.Systemuicontroller,
+      )
+    }
+    kotlin.srcDirs(mobileSrcDir)
+  }
   test.dependencies {
     implementationOf(compose.uiTestJUnit4)
   }
