@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. RinOrz
+ * Copyright (c) 2022. Chachako
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@
  *    to promptly comply with any such request.
  * 
  * In addition, if you modified the project, your code file must contain the
- * URL of the original project: https://github.com/RinOrz/appleui
+ * URL of the original project: https://github.com/chachako/appleui
  */
 publication.data {
   val baseVersion = "0.1.0"
@@ -40,13 +40,13 @@ publication.data {
 
   displayName = "Apple UI for Compose"
   artifactId = "appleui"
-  groupId = "com.rinorz.appleui"
-  url = "https://github.com/rinorz/${rootProject.name}"
+  groupId = "com.github.chachako.appleui"
+  url = "https://github.com/chachako/${rootProject.name}"
   vcs = "$url.git"
   developer {
-    name = "Rin"
-    id = "rinorz"
-    url = "https://github.com/rinorz/"
+    name = "Chachako"
+    id = "chachako"
+    url = "https://github.com/chachako/"
   }
 }
 
