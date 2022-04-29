@@ -32,44 +32,26 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/chachako/appleui
  */
-rootProject.name = "appleui"
+package chachako.appleui
 
-pluginManagement {
-  repositories {
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
+import android.content.Context.ACCESSIBILITY_SERVICE
+import android.view.accessibility.AccessibilityManager
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.platform.LocalContext
+import com.meowool.sweekt.LazyInit
+import com.meowool.sweekt.castOrNull
+import com.meowool.sweekt.runOrNull
+import java.lang.reflect.Method
+
+@LazyInit private var isHighTextContrastEnabled: Method? = runOrNull {
+  AccessibilityManager::class.java
+    .getDeclaredMethod("isHighTextContrastEnabled")
+    .apply { isAccessible = true }
 }
 
-plugins {
-  id("com.meowool.gradle.toolkit") version "0.1.1-SNAPSHOT"
-}
-
-buildscript {
-  configurations.all {
-    resolutionStrategy {
-      cacheChangingModulesFor(2, TimeUnit.DAYS)
-      eachDependency {
-        // Force Kotlin's version for all dependencies
-        if (requested.group == "org.jetbrains.kotlin") useVersion("1.6.10")
-      }
-    }
-  }
-}
-
-gradleToolkitWithMeowoolSpec(spec = {
-  licenseHeader = rootProject.projectDir.resolve("LICENSE").readLines().joinToString(
-    separator = "\n",
-    prefix = "/*\n",
-    postfix = "\n */"
-  ) { " * $it" }
-})
-
-importProjects(rootDir)
-
-// Only set in the CI environment, waiting the issue to be fixed:
-// https://youtrack.jetbrains.com/issue/KT-48291
-if (isCiEnvironment) extra["kotlin.mpp.enableGranularSourceSetsMetadata"] = true
+@Composable
+@ReadOnlyComposable
+actual fun isSystemEnabledHighContrast(): Boolean = LocalContext.current.getSystemService(ACCESSIBILITY_SERVICE)?.let {
+  runOrNull { isHighTextContrastEnabled?.invoke(it).castOrNull<Boolean>() }
+} ?: false

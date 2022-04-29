@@ -32,44 +32,21 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/chachako/appleui
  */
-rootProject.name = "appleui"
+@file:Suppress("NO_ACTUAL_FOR_EXPECT", "FunctionName")
 
-pluginManagement {
-  repositories {
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
-}
+package chachako.appleui
 
-plugins {
-  id("com.meowool.gradle.toolkit") version "0.1.1-SNAPSHOT"
-}
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 
-buildscript {
-  configurations.all {
-    resolutionStrategy {
-      cacheChangingModulesFor(2, TimeUnit.DAYS)
-      eachDependency {
-        // Force Kotlin's version for all dependencies
-        if (requested.group == "org.jetbrains.kotlin") useVersion("1.6.10")
-      }
-    }
-  }
-}
-
-gradleToolkitWithMeowoolSpec(spec = {
-  licenseHeader = rootProject.projectDir.resolve("LICENSE").readLines().joinToString(
-    separator = "\n",
-    prefix = "/*\n",
-    postfix = "\n */"
-  ) { " * $it" }
-})
-
-importProjects(rootDir)
-
-// Only set in the CI environment, waiting the issue to be fixed:
-// https://youtrack.jetbrains.com/issue/KT-48291
-if (isCiEnvironment) extra["kotlin.mpp.enableGranularSourceSetsMetadata"] = true
+/**
+ * Returns `true` if the system's high contrast mode is enabled.
+ *
+ * This function is the default for [Appearance.highContrast] property, and see that
+ * property for more information.
+ *
+ * @author Chachako
+ */
+@Composable
+@ReadOnlyComposable
+expect fun isSystemEnabledHighContrast(): Boolean

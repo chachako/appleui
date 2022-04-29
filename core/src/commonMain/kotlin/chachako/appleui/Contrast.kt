@@ -32,44 +32,27 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/chachako/appleui
  */
-rootProject.name = "appleui"
+@file:Suppress("NOTHING_TO_INLINE")
 
-pluginManagement {
-  repositories {
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
-}
+package chachako.appleui
 
-plugins {
-  id("com.meowool.gradle.toolkit") version "0.1.1-SNAPSHOT"
-}
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocal
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 
-buildscript {
-  configurations.all {
-    resolutionStrategy {
-      cacheChangingModulesFor(2, TimeUnit.DAYS)
-      eachDependency {
-        // Force Kotlin's version for all dependencies
-        if (requested.group == "org.jetbrains.kotlin") useVersion("1.6.10")
-      }
-    }
-  }
-}
+/**
+ * A [CompositionLocal] instance containing a boolean value that can detect whether the
+ * contrast is currently increased in the hierarchy.
+ *
+ * @see AppleUiTheme.highContrast
+ * @author Chachako
+ */
+internal val LocalHighContrast = staticCompositionLocalOf { false }
 
-gradleToolkitWithMeowoolSpec(spec = {
-  licenseHeader = rootProject.projectDir.resolve("LICENSE").readLines().joinToString(
-    separator = "\n",
-    prefix = "/*\n",
-    postfix = "\n */"
-  ) { " * $it" }
-})
-
-importProjects(rootDir)
-
-// Only set in the CI environment, waiting the issue to be fixed:
-// https://youtrack.jetbrains.com/issue/KT-48291
-if (isCiEnvironment) extra["kotlin.mpp.enableGranularSourceSetsMetadata"] = true
+/**
+ * Returns the [isSystemEnabledHighContrast] if this boolean is `null`, otherwise it returns itself.
+ */
+@Composable
+@ReadOnlyComposable
+internal inline fun Boolean?.orSystemHighContrast() = this ?: isSystemEnabledHighContrast()
