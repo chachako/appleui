@@ -32,15 +32,17 @@
  * In addition, if you modified the project, your code file must contain the
  * URL of the original project: https://github.com/chachako/appleui
  */
-@file:OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-
 import org.jetbrains.compose.compose
 
 val mobileSrcDir = "src/mobileMain/kotlin"
 
 plugins { id(Plugins.Jetbrains.Compose) }
 
-androidLib { namespace = publication.data.groupId }
+androidLib {
+  // TODO: We should not use "namespace" until IDEA merges with Android Studio upstream,
+  //   because IDEA does not yet recognize this property and thus cannot generate the "R.java" correctly.
+  // namespace = "chachako.appleui"
+}
 
 commonTarget {
   main.dependencies {
@@ -51,10 +53,7 @@ commonTarget {
       Libs.Meowool.Toolkit.Sweekt,
     )
     // TODO: Just for reference, so remove these dependencies after release
-    implementationOf(
-      compose.material,
-      compose.material3,
-    )
+    implementationOf(compose.material)
   }
 }
 

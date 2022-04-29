@@ -40,7 +40,7 @@ publication.data {
 
   displayName = "Apple UI for Compose"
   artifactId = "appleui"
-  groupId = "com.github.chachako.appleui"
+  groupId = "me.chachako.appleui"
   url = "https://github.com/chachako/${rootProject.name}"
   vcs = "$url.git"
   developer {
